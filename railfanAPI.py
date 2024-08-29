@@ -1,5 +1,5 @@
 from bottle import Bottle, run
-from Routers import train
+from Routers import train, emu
 from Helpers.config import HOST, PORT
 
 if __name__ == '__main__':
@@ -17,5 +17,6 @@ if __name__ == '__main__':
 
     app = Bottle()
     app.mount('/train', train.app)
+    app.mount('/emu', emu.app)
 
     run(app, host=HOST, port=PORT, quiet=True)

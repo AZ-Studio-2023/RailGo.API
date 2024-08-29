@@ -16,7 +16,6 @@ def train_info():
         data = requests.post("https://rail.moefactory.com/api/trainNumber/query", data=params).json()
     except:
         return {"code": 101, "msg": "服务异常"}
-    print(data)
     try:
         if data["code"] != 200:
             return {"code": 101, "msg": "服务异常"}
