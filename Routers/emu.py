@@ -11,7 +11,7 @@ def emu_info():
     model = bottle.request.query.model
     pageNumber = bottle.request.query.page
     try:
-        url = f'https://emu.passearch.info/index.php?type=model&keyword={model}&pagenum={pageNumber}'  # 将此替换为实际 URL
+        url = f'https://emu.passearch.info/index.php?type=model&keyword={model}&pagenum={pageNumber}' 
         response = requests.get(url)
     except:
         return {"code": 101, "msg": "服务异常"}
