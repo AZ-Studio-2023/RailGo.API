@@ -31,6 +31,20 @@ def train_info():
             cr = False
         else:
             cr = True
-        return {"code": 200, "data": {"train": data["trainNumber"], "beginStation": data["beginStationName"], "departureTime": data["departureTime"], "endStation": data["endStationName"], "arrivalTime": data["arrivalTime"], "last": data["durationMinutes"], "distance": data["distance"], "trainType": data["trainType"], "isCR": cr}}
+        return {"code": 200, "data": {"train": data["trainNumber"], "beginStation": data["beginStationName"],
+                                      "departureTime": data["departureTime"], "endStation": data["endStationName"],
+                                      "arrivalTime": data["arrivalTime"], "last": data["durationMinutes"],
+                                      "distance": data["distance"], "trainType": data["trainType"], "isCR": cr}}
+    else:
+        return {"code": 403}
+
+
+# 动车组交路
+@app.route("/emu")
+def t_emu():
+    if ip(bottle.request):
+        keyword = bottle.request.query.keyword
+        d = requests.get("https://api.rail.re/train/{}".format(keyword)).json()
+        return {"code": 200, "data": d}
     else:
         return {"code": 403}

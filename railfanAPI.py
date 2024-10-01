@@ -12,7 +12,7 @@ if __name__ == '__main__':
                                           `---'                          
 ''')
     print("railfanAPI V0.1.0 Beta")
-    print("Github：https://github.com/AZ-Studio-2023/railfanAPI")
+    print("Github：https://github.com/AZ-Studio-2023/GoRailing.API")
     print(f"Listening on http://{HOST}:{PORT}/")
 
     app = Bottle()

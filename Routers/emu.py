@@ -4,12 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 from Helpers.ipHelper import ip
 
-
 app = Bottle()
 
 
 @app.route("/model")
-def emu_info():
+def model():
     if ip(bottle.request):
         model = bottle.request.query.model
         pageNumber = bottle.request.query.page
@@ -30,5 +29,16 @@ def emu_info():
             if len(cols) >= 6:
                 data.append(cols[:6])
         return {"code": 200, "data": data}
+    else:
+        return {"code": 403}
+
+
+# 动车组车底
+@app.route("/")
+def emu():
+    if ip(bottle.request):
+        keyword = bottle.request.query.keyword
+        d = requests.get("https://api.rail.re/emu/{}".format(keyword)).json()
+        return {"code": 200, "data": d}
     else:
         return {"code": 403}
