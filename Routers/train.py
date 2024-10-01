@@ -44,7 +44,10 @@ def train_info():
 def t_emu():
     if ip(bottle.request):
         keyword = bottle.request.query.keyword
-        d = requests.get("https://api.rail.re/train/{}".format(keyword)).json()
+        try:
+            d = requests.get("https://api.rail.re/train/{}".format(keyword)).json()
+        except:
+            return {"code": 101, "msg": "服务异常"}
         return {"code": 200, "data": d}
     else:
         return {"code": 403}
