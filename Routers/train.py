@@ -11,6 +11,7 @@ def train_info():
     if ip(bottle.request):
         date = bottle.request.query.date
         train = bottle.request.query.train
+        od = bottle.request.query.od
         if date == "" or train == "":
             return {"code": 100, "msg": "参数不完整"}
         params = {"date": str(date), "trainNumber": str(train), "pageIndex": 1, "pageSize": 15}
@@ -31,10 +32,14 @@ def train_info():
             cr = False
         else:
             cr = True
-        return {"code": 200, "data": {"train": data["trainNumber"], "beginStation": data["beginStationName"],
+        rd = {"train": data["trainNumber"], "beginStation": data["beginStationName"],
                                       "departureTime": data["departureTime"], "endStation": data["endStationName"],
                                       "arrivalTime": data["arrivalTime"], "last": data["durationMinutes"],
-                                      "distance": data["distance"], "trainType": data["trainType"], "isCR": cr}}
+                                      "distance": data["distance"], "trainType": data["trainType"], "isCR": cr}
+        if od:
+            return rd
+        else:
+            return {"code": 200, "data": rd}
     else:
         return {"code": 403}
 
@@ -44,10 +49,14 @@ def train_info():
 def t_emu():
     if ip(bottle.request):
         keyword = bottle.request.query.keyword
+        od = bottle.request.query.od
         try:
             d = requests.get("https://api.rail.re/train/{}".format(keyword)).json()
         except:
             return {"code": 101, "msg": "服务异常"}
-        return {"code": 200, "data": d}
+        if od:
+            return d
+        else:
+            return {"code": 200, "data": d}
     else:
         return {"code": 403}

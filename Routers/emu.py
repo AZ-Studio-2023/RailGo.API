@@ -12,6 +12,7 @@ def model():
     if ip(bottle.request):
         model = bottle.request.query.model
         pageNumber = bottle.request.query.page
+        od = bottle.request.query.od
         try:
             url = f'https://emu.passearch.info/index.php?type=model&keyword={model}&pagenum={pageNumber}'
             response = requests.get(url)
@@ -28,7 +29,10 @@ def model():
             cols = [col.text.strip() for col in cols]
             if len(cols) >= 6:
                 data.append(cols[:6])
-        return {"code": 200, "data": data}
+        if od:
+            return data
+        else:
+            return {"code": 200, "data": data}
     else:
         return {"code": 403}
 
@@ -38,10 +42,14 @@ def model():
 def emu():
     if ip(bottle.request):
         keyword = bottle.request.query.keyword
+        od = bottle.request.query.od
         try:
             d = requests.get("https://api.rail.re/emu/{}".format(keyword)).json()
         except:
             return {"code": 101, "msg": "服务异常"}
-        return {"code": 200, "data": d}
+        if od:
+            return d
+        else:
+            return {"code": 200, "data": d}
     else:
         return {"code": 403}
